@@ -1,0 +1,8 @@
+server:
+  port: 9006
+
+spring:
+  application:
+    name: CATEGORY-SERVICE
+  zipkin:
+    base-url: http://127.0.0.1:9411/
