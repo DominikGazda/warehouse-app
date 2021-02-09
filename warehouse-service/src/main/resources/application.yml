@@ -1,0 +1,10 @@
+server:
+  port: 9093
+
+spring:
+  application:
+    name: WAREHOUSE-SERVICE
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+
+
