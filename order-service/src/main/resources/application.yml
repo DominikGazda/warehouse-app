@@ -1,0 +1,9 @@
+server:
+  port: 9098
+
+spring:
+  application:
+    name: ORDER-SERVICE
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+
