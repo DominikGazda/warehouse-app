@@ -1,0 +1,77 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: WAREHOUSE-SERVICE
+          uri: lb://WAREHOUSE-SERVICE
+          predicates:
+            - Path=/api/warehouse/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                  name: WAREHOUSE-SERVICE
+                  fallbackUri: forward:/warehouseServiceFallBack
+        - id: ADDRESS-SERVICE
+          uri: lb://ADDRESS-SERVICE
+          predicates:
+            - Path=/api/address/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ADDRESS-SERVICE
+                fallbackUri: forward:/addressServiceFallBack
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PRODUCT-SERVICE
+                fallbackUri: forward:/productServiceFallBack
+        - id: CATEGORY-SERVICE
+          uri: lb://CATEGORY-SERVICE
+          predicates:
+            - Path=/api/category/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: CATEGORY-SERVICE
+                fallbackUri: forward:/categoryServiceFallBack
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ORDER-SERVICE
+                fallbackUri: forward:/orderServiceFallBack
+        - id: CLIENT-SERVICE
+          uri: lb://CLIENT-SERVICE
+          predicates:
+            - Path=/api/client/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: CLIENT-SERVICE
+                fallbackUri: forward:/clientServiceFallBack
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
