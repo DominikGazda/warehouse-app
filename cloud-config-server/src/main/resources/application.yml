@@ -1,6 +1,7 @@
 server:
   port: 9296
 
+
 spring:
   application:
     name: CONFIG-SERVER
@@ -10,4 +11,5 @@ spring:
         git:
           uri: https://github.com/DominikGazda/config-server
           clone-on-start: true
+
 
