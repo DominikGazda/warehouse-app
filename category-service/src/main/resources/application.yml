@@ -4,5 +4,12 @@ server:
 spring:
   application:
     name: CATEGORY-SERVICE
-  zipkin:
-    base-url: http://127.0.0.1:9411/
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://service-registry:8761/eureka/
+  instance:
+    hostname: category-service
