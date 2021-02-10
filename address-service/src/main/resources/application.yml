@@ -4,6 +4,21 @@ server:
 spring:
   application:
     name: ADDRESS-SERVICE
-  zipkin:
-    base-url: http://127.0.0.1:9411/
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://service-registry:8761/eureka/
+  instance:
+    hostname: address-service
+
+
 
