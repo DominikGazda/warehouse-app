@@ -1,0 +1,65 @@
+version: '3'
+services:
+    service-registry:
+      build: ./service-registry
+      ports:
+        - "8761:8761"
+      restart: always
+
+    cloud-gateway:
+      build: ./cloud-gateway
+      ports:
+        - "9191:9191"
+      depends_on:
+        - service-registry
+      restart: always
+
+    address-service:
+      build: ./address-service
+      ports:
+        - "9002:9002"
+      restart: always
+      depends_on:
+        - cloud-gateway
+        
+    warehouse-service:
+      build: ./warehouse-service
+      ports:
+        - "9093:9093"
+      depends_on:
+        - cloud-gateway
+      restart: always
+      
+    product-service:
+      build: ./product-service
+      ports:
+        - "9005:9005"
+      depends_on:
+        - cloud-gateway
+      restart: always
+      
+    category-service:
+      build: ./category-service
+      ports:
+        - "9006:9006"
+      depends_on:
+        - cloud-gateway
+      restart: always  
+      
+    order-service:
+      build: ./order-service
+      ports:
+        - "9098:9098"
+      depends_on:
+        - cloud-gateway
+      restart: always
+      
+    client-service:
+      build: ./client-service
+      ports:
+        - "9001:9001"
+      depends_on:
+        - cloud-gateway
+      restart: always       
+
+      
