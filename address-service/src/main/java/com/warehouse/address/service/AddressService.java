@@ -53,4 +53,11 @@ public class AddressService {
                 .collect(Collectors.joining());
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,message);
     }
+
+    public Address deleteAddress(Long id) {
+        Address addressToDelete = addressRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Address not found"));
+        addressRepository.delete(addressToDelete);
+        return addressToDelete;
+    }
 }
