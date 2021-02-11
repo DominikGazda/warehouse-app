@@ -53,4 +53,9 @@ public class AddressController {
                 .build().toUri();
         return ResponseEntity.created(location).body(updatedAddress);
     }
+
+    @DeleteMapping("{id}")
+    public Address deleteAddress(@PathVariable Long id){
+        return addressService.deleteAddress(id);
+    }
 }
