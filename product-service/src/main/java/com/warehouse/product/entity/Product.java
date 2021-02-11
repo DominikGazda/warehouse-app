@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "product")
@@ -20,13 +22,18 @@ public class Product {
     @GeneratedValue
     private Long productId;
 
+    @NotBlank(message = "{com.warehouse.product.entity.Product.name.NotBlank}")
     private String name;
 
-    private int quantity;
+    @NotNull(message = "{com.warehouse.product.entity.Product.quantity.NotNull}")
+    private Integer quantity;
 
-    private double price;
+    @NotNull(message = "{com.warehouse.product.entity.Product.price.NotNull}")
+    private Double price;
 
+    @NotNull(message = "{com.warehouse.product.entity.Product.warehouseId.NotNull}")
     private Long warehouseId;
 
+    @NotNull(message = "{com.warehouse.product.entity.Product.categoryId.NotNull}")
     private Long categoryId;
 }
