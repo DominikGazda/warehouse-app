@@ -4,9 +4,11 @@ import com.warehouse.product.common.ResponseTemplate;
 import com.warehouse.product.entity.Product;
 import com.warehouse.product.service.ProductService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -26,7 +28,9 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Product> saveProduct(@RequestBody Product product){
+    public ResponseEntity<Product> saveProduct(@Valid @RequestBody Product product, BindingResult errors){
+        if(errors.hasErrors())
+            productService.createErrorsMessage(errors);
         Product savedProduct = productService.saveProduct(product);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -35,9 +39,24 @@ public class ProductController {
         return ResponseEntity.created(location).body(savedProduct);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<ResponseTemplate> getProductWithDetailsById(@PathVariable Long id){
         ResponseTemplate productWithDetails = productService.getProductWithDetailsById(id);
         return ResponseEntity.ok(productWithDetails);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id,@Valid @RequestBody Product product, BindingResult erros){
+        if(erros.hasErrors())
+            productService.createErrorsMessage(erros);
+        Product updatedProduct = productService.updateProduct(product, id);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .build().toUri();
+        return ResponseEntity.created(location).body(updatedProduct);
+    }
+
+    @DeleteMapping("{id}")
+    public Product deleteProduct(@PathVariable Long id){
+        return productService.deleteProduct(id);
     }
 }
