@@ -4,9 +4,11 @@ import com.warehouse.order.common.ResponseTemplate;
 import com.warehouse.order.entity.Order;
 import com.warehouse.order.service.OrderService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -26,7 +28,9 @@ public class OrderController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Order> saveOrder(@RequestBody Order order){
+    public ResponseEntity<Order> saveOrder(@Valid @RequestBody Order order, BindingResult errors){
+        if(errors.hasErrors())
+            orderService.createErrorsMessage(errors);
         Order savedOrder = orderService.saveOrder(order);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -38,5 +42,25 @@ public class OrderController {
     @GetMapping("{id}")
     public ResponseTemplate getOrderWithDetailsById(@PathVariable Long id){
         return orderService.getOrderWithDetailsById(id);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id,@Valid @RequestBody Order order, BindingResult errors){
+        if(errors.hasErrors())
+            orderService.createErrorsMessage(errors);
+        Order updatedOrder = orderService.updateOrder(order, id);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .build().toUri();
+        return ResponseEntity.created(location).body(updatedOrder);
+    }
+
+    @PatchMapping("{id}")
+    public Order changeOrderStatus(@PathVariable Long id){
+        return orderService.changeOrderStatus(id);
+    }
+    
+    @DeleteMapping("{id}")
+    public Order deleteOrder(@PathVariable Long id){
+        return orderService.deleteOrder(id);
     }
 }
