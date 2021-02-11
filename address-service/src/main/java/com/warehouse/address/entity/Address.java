@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "address")
@@ -17,11 +19,15 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
 
+    @NotBlank(message = "{com.warehouse.address.country.NotBlank}")
     private String country;
 
+    @NotBlank(message = "{com.warehouse.address.city.NotBlank}")
     private String city;
 
+    @NotBlank(message = "{com.warehouse.address.street.NotBlank}")
     private String street;
 
-    private int apartmentNumber;
+    @NotNull(message = "{com.warehouse.address.apartmentNumber}")
+    private Integer apartmentNumber;
 }
