@@ -3,9 +3,11 @@ package com.warehouse.address.controller;
 import com.warehouse.address.entity.Address;
 import com.warehouse.address.service.AddressService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -25,7 +27,9 @@ public class AddressController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Address> saveAddress(@RequestBody Address address){
+    public ResponseEntity<Address> saveAddress(@Valid @RequestBody Address address, BindingResult errors){
+        if(errors.hasErrors())
+            addressService.createErrorsMessage(errors);
         Address savedAddress = addressService.saveAddress(address);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -38,5 +42,15 @@ public class AddressController {
     public ResponseEntity<Address> getAddressById(@PathVariable Long id){
         Address address = addressService.getAddressById(id);
         return ResponseEntity.ok(address);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Address> updateAddress(@PathVariable Long id,@Valid @RequestBody Address address, BindingResult errors){
+        if(errors.hasErrors())
+            addressService.createErrorsMessage(errors);
+        Address updatedAddress = addressService.updateAddress(address, id);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .build().toUri();
+        return ResponseEntity.created(location).body(updatedAddress);
     }
 }
