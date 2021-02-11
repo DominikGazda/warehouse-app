@@ -60,6 +60,14 @@ services:
         - "9001:9001"
       depends_on:
         - cloud-gateway
-      restart: always       
+      restart: always
+      
+    hystrix-dashboard:
+      build: ./hystrix-dashboard
+      ports:
+        - "9295:9295"
+      depends_on:
+        - cloud-gateway
+      restart: always           
 
       
