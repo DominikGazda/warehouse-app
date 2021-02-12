@@ -17,4 +17,28 @@ public class FallBackMethodController {
         return "Warehouse Service is taking longer than expected"
                 +"please try again later";
     }
+
+    @GetMapping("/productServiceFallBack")
+    public String productServiceFallBackMethod(){
+        return "Product Service is taking longer than expected"
+                +"please try again later";
+    }
+
+    @GetMapping("categoryServiceFallBack")
+    public String categoryServiceFallBackMethod(){
+        return "Category Service is taking longer than expected"
+                +"please try again later";
+    }
+
+    @GetMapping("/orderServiceFallBack")
+    public String orderServiceFallBackMethod(){
+        return "Order Service is taking longer than expected"
+                +"please try again later";
+    }
+
+    @GetMapping("/clientServiceFallBack")
+    public String clientServiceFallBackMethod(){
+        return "Client Service is taking longer than expected"
+                +"please try again later";
+    }
 }

@@ -69,5 +69,23 @@ services:
       depends_on:
         - cloud-gateway
       restart: always           
-
       
+    zipkin:
+      image: openzipkin/zipkin-slim
+      container_name: zipkin
+      environment:
+        - STORAGE_TYPE=mem
+      ports:
+        - 9411:9411
+      depends_on:
+        - storage
+
+    storage:
+      image: busybox:1.31.0
+      container_name: fake_storage
+
+    dependencies:
+      image: busybox:1.31.0
+      container_name: fake_dependencies   
+  
+  
