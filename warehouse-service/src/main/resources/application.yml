@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: WAREHOUSE-SERVICE
-  zipkin:
-    base-url: http://zipkin:9411/
 
 eureka:
   client:
